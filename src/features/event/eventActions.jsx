@@ -70,12 +70,12 @@ export const getEventsForDashboard = lastEvent => async (dispatch, getState, { f
 
     lastEvent
       ? (query = eventsRef
-          //.where("date", ">=", today)
+          .where("date", ">=", today)
           .orderBy("date")
           .startAfter(startAfter)
           .limit(2))
       : (query = eventsRef
-          //.where("date", ">=", today)
+          .where("date", ">=", today)
           .orderBy("date")
           .limit(2));
 
