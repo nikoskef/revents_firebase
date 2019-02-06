@@ -49,10 +49,10 @@ class EventDetailedInfo extends Component {
             <Grid.Column width={1}>
               <Icon name="marker" size="large" color="teal" />
             </Grid.Column>
-            <Grid.Column width={11}>
+            <Grid.Column mobile={16} tablet={11} computer={11}>
               <span>{event.venue}</span>
             </Grid.Column>
-            <Grid.Column width={4}>
+            <Grid.Column mobile={16} tablet={8} computer={4}>
               <Button
                 onClick={this.showMapToggle}
                 color="teal"

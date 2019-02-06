@@ -131,7 +131,7 @@ class PhotosPage extends Component {
         <Header dividing size="large" content="Your Photos" />
         <Grid>
           <Grid.Row />
-          <Grid.Column width={4}>
+          <Grid.Column mobile={16} tablet={8} computer={4}>
             <Header color="teal" sub content="Step 1 - Add Photo" />
             <Dropzone accept="image/*" onDrop={this.onDrop} multiple={false}>
               {({
@@ -161,8 +161,8 @@ class PhotosPage extends Component {
               }}
             </Dropzone>
           </Grid.Column>
-          <Grid.Column width={1} />
-          <Grid.Column width={4}>
+          <Grid.Column mobile={16} tablet={8} computer={1} />
+          <Grid.Column mobile={16} tablet={8} computer={4}>
             <Header sub color="teal" content="Step 2 - Resize image" />
             {this.state.files[0] && (
               <Cropper
@@ -210,7 +210,7 @@ class PhotosPage extends Component {
         </Grid>
         <Divider />
         <Header sub color="teal" content="All Photos" />
-        <Card.Group itemsPerRow={5}>
+        <Card.Group>
           <Card>
             <Image src={profile.photoURL || "/assets/user.png"} />
             <Button positive>Main Photo</Button>

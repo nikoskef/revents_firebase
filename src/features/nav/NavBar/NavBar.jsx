@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withFirebase } from "react-redux-firebase";
-import { Menu, Container, Button } from "semantic-ui-react";
+import { Menu, Container, Button, Responsive, Dropdown } from "semantic-ui-react";
 import { NavLink, Link, withRouter } from "react-router-dom";
 import SignedOutMenu from "../Menus/SignedOutMenu";
 import SignedInMenu from "../Menus/SignedInMenu";
@@ -32,21 +32,36 @@ class NavBar extends Component {
             <img src="/assets/logo.png" alt="logo" />
             Re-vents
           </Menu.Item>
-          <Menu.Item as={NavLink} to="/events" name="Events" />
-          <Menu.Item as={NavLink} to="/test" name="Test" />
-          {authenticated && <Menu.Item as={NavLink} to="/people" name="People" />}
-          {authenticated && (
-            <Menu.Item>
-              <Button
-                as={Link}
-                to="/createEvent"
-                floated="right"
-                positive
-                inverted
-                content="Create Event"
-              />
-            </Menu.Item>
-          )}
+          <Responsive as={Menu.Item} minWidth={768}>
+            <Menu.Item as={NavLink} to="/events" name="Events" />
+
+            {authenticated && <Menu.Item as={NavLink} to="/people" name="People" />}
+            {authenticated && (
+              <Menu.Item>
+                <Button
+                  as={Link}
+                  to="/createEvent"
+                  floated="right"
+                  positive
+                  inverted
+                  content="Create Event"
+                />
+              </Menu.Item>
+            )}
+          </Responsive>
+          <Responsive as={Menu.Item} maxWidth={767}>
+            {authenticated ? (
+              <Dropdown pointing="top left" icon="bars">
+                <Dropdown.Menu>
+                  <Dropdown.Item text="Events" as={Link} to="/events" />
+                  <Dropdown.Item text="People" as={Link} to="/people" />
+                  <Dropdown.Item text="Create Event" as={Link} to="/createEvent" />
+                </Dropdown.Menu>
+              </Dropdown>
+            ) : (
+              <Menu.Item as={NavLink} to="/events" name="Events" />
+            )}
+          </Responsive>
           {authenticated ? (
             <SignedInMenu auth={auth} profile={profile} signOut={this.handleSignOut} />
           ) : (

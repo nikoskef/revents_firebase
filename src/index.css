@@ -106,3 +106,9 @@ body {
   padding-bottom: 0 !important;
   padding-left: 2em !important;
 }
+
+.wrapped {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}

@@ -11,7 +11,7 @@ const UserDetailedSidebar = ({
   unfollowUser
 }) => {
   return (
-    <Grid.Column width={4}>
+    <Grid.Column mobile={16} tablet={12} computer={4}>
       <Segment>
         {isCurrentUser && (
           <Button as={Link} to="/settings" color="teal" fluid basic content="Edit Profile" />

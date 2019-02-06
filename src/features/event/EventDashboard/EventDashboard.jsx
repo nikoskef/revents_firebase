@@ -65,7 +65,7 @@ class EventDashboard extends Component {
     if (this.state.loadingInitial) return <LoadingComponent inverted={true} />;
     return (
       <Grid>
-        <Grid.Column width={10}>
+        <Grid.Column mobile={16} tablet={12} computer={10}>
           <div ref={this.handleContextRef}>
             <EventList
               loading={loading}

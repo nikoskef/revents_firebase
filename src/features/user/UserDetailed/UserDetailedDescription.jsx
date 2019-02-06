@@ -8,7 +8,7 @@ const UserDetailedDescription = ({ profile }) => {
     createdAt = format(new Date(profile.createdAt), "d MMM uuuu");
   }
   return (
-    <Grid.Column width={12}>
+    <Grid.Column mobile={16} tablet={12} computer={12}>
       <Segment>
         <Grid columns={2}>
           <Grid.Column width={10}>

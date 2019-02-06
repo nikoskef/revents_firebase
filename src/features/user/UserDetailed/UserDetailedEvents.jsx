@@ -12,17 +12,17 @@ const panes = [
 
 const UserDeteiledEvents = ({ events, eventsLoading, changeTab }) => {
   return (
-    <Grid.Column width={12}>
+    <Grid.Column mobile={16} tablet={12} computer={12}>
       <Segment attached loading={eventsLoading}>
         <Header icon="calendar" content="Events" />
         <Tab
           onTabChange={(e, data) => changeTab(e, data)}
           panes={panes}
-          menu={{ secondary: true, pointing: true }}
+          menu={{ secondary: true, pointing: true, className: "wrapped" }}
         />
         <br />
 
-        <Card.Group itemsPerRow={5}>
+        <Card.Group>
           {events &&
             events.map(event => (
               <Card as={Link} to={`/event/${event.id}`} key={event.id}>

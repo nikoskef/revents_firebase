@@ -66,7 +66,7 @@ class EventDetailedPage extends Component {
 
     return (
       <Grid>
-        <Grid.Column width={10}>
+        <Grid.Column mobile={16} tablet={16} computer={10}>
           <EventDetailedHeader
             loading={loading}
             event={event}
@@ -86,7 +86,7 @@ class EventDetailedPage extends Component {
             />
           )}
         </Grid.Column>
-        <Grid.Column width={6}>
+        <Grid.Column mobile={16} tablet={8} computer={6}>
           <EventDetailedSidebar attendees={attendees} />
         </Grid.Column>
       </Grid>

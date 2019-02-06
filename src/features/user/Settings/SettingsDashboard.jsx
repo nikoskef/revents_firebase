@@ -13,7 +13,7 @@ import { updateProfile } from "../userActions";
 const SettingsDashboard = ({ updatePassword, providerId, user, updateProfile }) => {
   return (
     <Grid>
-      <Grid.Column width={12}>
+      <Grid.Column mobile={16} tablet={12} computer={12}>
         <Switch>
           <Redirect exact from="/settings" to="/settings/basic" />
           <Route
