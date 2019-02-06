@@ -179,12 +179,17 @@ class EventForm extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
   let event = {};
+  const eventId = ownProps.match.params.id;
 
-  // if (state.firestore.ordered.events && state.firestore.ordered.events[0]) {
-  //   event = state.firestore.ordered.events[0];
-  // }
+  if (state.firestore.ordered.events && state.firestore.ordered.events[0]) {
+    event = state.firestore.ordered.events.find(event => event.id === eventId);
+  }
+
+  if (event === undefined) {
+    event = {};
+  }
 
   return {
     initialValues: event,
