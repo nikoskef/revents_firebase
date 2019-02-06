@@ -12,6 +12,7 @@ import SettingsDashboard from "../../features/user/Settings/SettingsDashboard";
 import HomePage from "../../features/home/HomePage";
 import TestComponent from "../../features/testarea/TestComponent";
 import ModalManager from "../../features/modals/ModalManager";
+import NotFound from "./NotFound";
 import { UserIsAuthenticated } from "../../features/auth/authWrapper";
 
 class App extends Component {
@@ -38,6 +39,8 @@ class App extends Component {
                   <Route path="/profile/:id" component={UserIsAuthenticated(UserDetailedPage)} />
                   <Route path="/settings" component={UserIsAuthenticated(SettingsDashboard)} />
                   <Route path="/createEvent" component={UserIsAuthenticated(EventForm)} />
+                  <Route path="/error" component={NotFound} />
+                  <Route component={NotFound} />
                 </Switch>
               </Container>
             </div>

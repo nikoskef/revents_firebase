@@ -169,13 +169,15 @@ class EventForm extends Component {
               <Button disabled={loading} onClick={this.props.history.goBack} type="button">
                 Cancel
               </Button>
-              <Button
-                onClick={() => cancelToggle(!event.cancelled, event.id, this.props.firestore)}
-                type="button"
-                color={event.cancelled ? "green" : "red"}
-                floated="right"
-                content={event.cancelled ? "Reactivate Event" : "Cancel event"}
-              />
+              {event.id && (
+                <Button
+                  onClick={() => cancelToggle(!event.cancelled, event.id, this.props.firestore)}
+                  type="button"
+                  color={event.cancelled ? "green" : "red"}
+                  floated="right"
+                  content={event.cancelled ? "Reactivate Event" : "Cancel event"}
+                />
+              )}
             </Form>
           </Segment>
         </Grid.Column>
@@ -195,6 +197,10 @@ const mapStateToProps = (state, ownProps) => {
   if (event === undefined) {
     event = {};
   }
+
+  // if (state.firestore.ordered.events && state.firestore.ordered.events[0]) {
+  //   event = state.firestore.ordered.events[0];
+  // }
 
   return {
     initialValues: event,

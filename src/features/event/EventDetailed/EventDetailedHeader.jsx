@@ -1,9 +1,8 @@
 import React from "react";
-import { Segment, Image, Item, Header, Button } from "semantic-ui-react";
+import { Segment, Image, Item, Header, Button, Label } from "semantic-ui-react";
 import { withFirestore } from "react-redux-firebase";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
-import { openModal } from "../../modals/modalActions";
 
 const eventImageStyle = {
   filter: "brightness(30%)"
@@ -53,20 +52,23 @@ const EventDetailedHeader = ({
       <Segment attached="bottom">
         {!isHost && (
           <React.Fragment>
-            {isGoing && (
+            {isGoing && !event.cancelled && (
               <Button onClick={() => cancelGoingToEvent(event, firestore)}>Cancel My Place</Button>
             )}
 
-            {!isGoing && authenticated && (
+            {!isGoing && authenticated && !event.cancelled && (
               <Button loading={loading} onClick={() => goingToEvent(event, firestore)} color="teal">
                 JOIN THIS EVENT
               </Button>
             )}
 
-            {!authenticated && (
+            {!authenticated && !event.cancelled && (
               <Button loading={loading} onClick={() => openModal("UnauthModal")} color="teal">
                 JOIN THIS EVENT
               </Button>
+            )}
+            {event.cancelled && !isHost && (
+              <Label size="large" color="red" content="This event has been cancelled" />
             )}
           </React.Fragment>
         )}
