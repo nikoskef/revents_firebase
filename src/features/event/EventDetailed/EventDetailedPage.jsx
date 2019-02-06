@@ -29,7 +29,8 @@ class EventDetailedPage extends Component {
       goingToEvent,
       cancelGoingToEvent,
       addEventComment,
-      eventChat
+      eventChat,
+      loading
     } = this.props;
     const attendees = event && event.attendees && objectToArray(event.attendees);
     const isHost = event.hostUid === auth.uid;
@@ -39,6 +40,7 @@ class EventDetailedPage extends Component {
       <Grid>
         <Grid.Column width={10}>
           <EventDetailedHeader
+            loading={loading}
             event={event}
             isHost={isHost}
             isGoing={isGoing}
@@ -63,6 +65,7 @@ class EventDetailedPage extends Component {
 const mapStateToProps = (state, ownProps) => {
   let event = {};
   const eventId = ownProps.match.params.id;
+
   if (state.firestore.ordered.events && state.firestore.ordered.events[0]) {
     event = state.firestore.ordered.events.find(event => event.id === eventId);
   }
@@ -70,6 +73,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     event,
     auth: state.firebase.auth,
+    loading: state.async.loading,
     eventChat:
       !isEmpty(state.firebase.data) &&
       objectToArray(state.firebase.data.event_chat[ownProps.match.params.id])

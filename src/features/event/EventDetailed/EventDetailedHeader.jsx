@@ -23,6 +23,7 @@ const EventDetailedHeader = ({
   isGoing,
   goingToEvent,
   firestore,
+  loading,
   cancelGoingToEvent
 }) => {
   return (
@@ -52,7 +53,7 @@ const EventDetailedHeader = ({
             {isGoing ? (
               <Button onClick={() => cancelGoingToEvent(event, firestore)}>Cancel My Place</Button>
             ) : (
-              <Button onClick={() => goingToEvent(event, firestore)} color="teal">
+              <Button loading={loading} onClick={() => goingToEvent(event, firestore)} color="teal">
                 JOIN THIS EVENT
               </Button>
             )}

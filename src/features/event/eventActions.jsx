@@ -2,6 +2,7 @@ import { toastr } from "react-redux-toastr";
 import { FETCH_EVENTS } from "./eventConstants";
 import { asyncActionStart, asyncActionFinish, asyncActionError } from "../async/asyncActions";
 import { createNewEvent } from "../../app/common/utils/helpers";
+import compareAsc from "date-fns/compareAsc";
 
 export const createEvent = (event, firestore) => {
   return async (dispatch, getState, { firebase }) => {
@@ -23,14 +24,39 @@ export const createEvent = (event, firestore) => {
   };
 };
 
-export const updateEvent = (event, firestore) => {
-  return async (dispatch, getState) => {
-    if (event.date !== getState().firestore.ordered.events[0].date)
-      event.date = new Date(event.date);
+export const updateEvent = event => {
+  return async (dispatch, getState, { firebase }) => {
+    dispatch(asyncActionStart());
+    const firestore = firebase.firestore();
+    event.date = new Date(event.date);
     try {
-      await firestore.update(`events/${event.id}`, event);
+      let eventDocRef = firestore.collection("events").doc(event.id);
+      let dateEqual = compareAsc(getState().firestore.ordered.events[0].date.toDate(), event.date);
+      if (dateEqual !== 0) {
+        let batch = firestore.batch();
+        await batch.update(eventDocRef, event);
+
+        let eventAttendeeRef = firestore.collection("event_attendee");
+        let eventAttendeeQuery = await eventAttendeeRef.where("eventId", "==", event.id);
+        let eventAttendeeQuerySnap = await eventAttendeeQuery.get();
+
+        for (let evt of eventAttendeeQuerySnap.docs) {
+          let eventAttendeeDocRef = await firestore.collection("event_attendee").doc(evt.id);
+
+          await batch.update(eventAttendeeDocRef, {
+            eventDate: event.date
+          });
+        }
+
+        await batch.commit();
+      } else {
+        await eventDocRef.update(event);
+      }
+
+      dispatch(asyncActionFinish());
       toastr.success("Success!", "Event has been updated");
     } catch (error) {
+      dispatch(asyncActionError());
       toastr.error("Oops", "Something went wrong");
     }
   };
