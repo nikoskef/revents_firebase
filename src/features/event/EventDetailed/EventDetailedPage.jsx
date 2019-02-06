@@ -10,6 +10,7 @@ import EventDetailedSidebar from "./EventDetailedSidebar";
 import { objectToArray, createDataTree } from "../../../app/common/utils/helpers";
 import { goingToEvent, cancelGoingToEvent } from "../../user/userActions";
 import { addEventComment } from "../eventActions";
+import { openModal } from "../../modals/modalActions";
 
 class EventDetailedPage extends Component {
   async componentDidMount() {
@@ -30,12 +31,14 @@ class EventDetailedPage extends Component {
       cancelGoingToEvent,
       addEventComment,
       eventChat,
-      loading
+      loading,
+      openModal
     } = this.props;
     const attendees = event && event.attendees && objectToArray(event.attendees);
     const isHost = event.hostUid === auth.uid;
     const isGoing = attendees && attendees.some(a => a.id === auth.uid);
     const chatTree = !isEmpty(eventChat) && createDataTree(eventChat);
+    const authenticated = auth.isLoaded && !auth.isEmpty;
     return (
       <Grid>
         <Grid.Column width={10}>
@@ -46,13 +49,17 @@ class EventDetailedPage extends Component {
             isGoing={isGoing}
             goingToEvent={goingToEvent}
             cancelGoingToEvent={cancelGoingToEvent}
+            authenticated={authenticated}
+            openModal={openModal}
           />
           <EventDetailedInfo event={event} />
-          <EventDetailedChat
-            addEventComment={addEventComment}
-            eventId={event.id}
-            eventChat={chatTree}
-          />
+          {authenticated && (
+            <EventDetailedChat
+              addEventComment={addEventComment}
+              eventId={event.id}
+              eventChat={chatTree}
+            />
+          )}
         </Grid.Column>
         <Grid.Column width={6}>
           <EventDetailedSidebar attendees={attendees} />
@@ -83,7 +90,8 @@ const mapStateToProps = (state, ownProps) => {
 const actions = {
   goingToEvent,
   cancelGoingToEvent,
-  addEventComment
+  addEventComment,
+  openModal
 };
 
 export default compose(
