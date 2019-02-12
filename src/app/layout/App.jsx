@@ -58,8 +58,7 @@ class App extends Component {
         <Route
           path="/(.+)"
           render={() => (
-            <div>
-              <AsyncNavBar />
+            <AsyncNavBar>
               <Container className="main">
                 <Switch>
                   <Route path="/events" component={AsyncEventDashboard} />
@@ -76,7 +75,7 @@ class App extends Component {
                   <Route component={AsyncNotFound} />
                 </Switch>
               </Container>
-            </div>
+            </AsyncNavBar>
           )}
         />
       </div>
